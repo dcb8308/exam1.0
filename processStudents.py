@@ -30,8 +30,35 @@ through the logic of the problem.
 
 import csv
 
+studict = {}
+
 
 # create a file object to open the file in read mode
+with open("students.csv", "r") as infile:
+    next(infile)
+    for line in infile:
+        categories = line.strip().split(",")
+        student_id = categories[0]
+        gpa = float(categories[8])
+        fname = categories[2]
+        lname = categories[3]
+        major = categories[6]
+        calssification = categories[7]
+        
+
+        fullname = f"{fname} {lname}"
+
+        studict[fullname] = gpa
+
+        if gpa > 3.0:
+            with open("processedStudents.csv", "a") as outfile:
+                outfile.write(f"{student_id},{fname},{lname},{major},{calssification},{gpa}\n")
+                outfile.close()
+
+print(studict)
+print(f'Luke Brazzis GPA is {studict.get("Luke Brazzi",'student not here')}')
+
+
 
 
 
@@ -79,20 +106,6 @@ import csv
 
 
 
-#display the wordcloud
-from pathlib import Path
-from wordcloud import WordCloud
-import imageio.v2 as imageio
-import matplotlib.pyplot as plt
-
-
-text = Path("RomeoAndJuliet.txt").read_text()
-mask_image = imageio.imread("mask_heart.png")
-wordcloud = WordCloud(colormap="prism", mask=mask_image, background_color="white")
-wordcloud = wordcloud.generate(text)
-wordcloud = wordcloud.to_file("RomeoAndJulietHeart.png")
-plt.imshow(wordcloud)
-plt.show()
 
 
 
